@@ -1,3 +1,9 @@
-﻿$HEADER$namespace $NAMESPACE$ {
-  public class $CLASS$ : UnityEngine.MonoBehaviour {$END$}
+﻿using UnityEngine;
+
+namespace Weapon
+{
+    public class StartBulletPoint : MonoBehaviour
+    {
+        
+    }
 }

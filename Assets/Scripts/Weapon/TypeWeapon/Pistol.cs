@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 namespace Weapon.TypeWeapon
 {
-    public class Pistol : MonoBehaviour
+    public class Pistol : WeaponBase
     {
         
     }

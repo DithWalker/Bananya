@@ -1,59 +1,78 @@
+using System;
+using Banana;
 using UnityEngine;
+using Weapon;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
     [SerializeField] private Joystick joystickL;
     [SerializeField] private Joystick joystickR;
     [SerializeField] private float speed = 1f;
     [SerializeField] private float currentHealth;
     [SerializeField] private float maxHealth = 100.0f;
+    [SerializeField] private GameObject LoseUIPanel;
+    [SerializeField] private GameObject JoystickUIPanel;
 
     public Health healthBar;
 
+
+    private PlayerAnimator _playerAnimator;
+    private Animator _animator;
+    private WeaponBase _weapon;
+
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _weapon = GetComponentInChildren<WeaponBase>();
+        _playerAnimator = GetComponentInChildren<PlayerAnimator>();
     }
 
     public void TakeDamage(float damage)
     {
-        healthBar.SetHealth(currentHealth - damage);
-        currentHealth -= damage;
+        float NewHealth = Math.Clamp(currentHealth - damage, 0.0f, maxHealth);
+
+        healthBar.SetHealth(NewHealth);
+        currentHealth = NewHealth;
+        if (currentHealth == 0.0f)
+        {
+            Dead();
+        }
     }
+    
+    private Animator animator;
 
     private void Start()
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        
     }
 
 
-    void Update()
+    private void Update()
     {
+   
+
         UpdateJoystickL();
         UpdateJoystickR();
     }
 
-    void UpdateJoystickL()
+    private void UpdateJoystickL()
     {
         float hoz = joystickL.Horizontal;
         float ver = joystickL.Vertical;
-        Vector2 convertedXY = ConvertWithCamera(Camera.main.transform.position, hoz, ver);
-        Vector3 direction = new Vector3(convertedXY.x, 0, convertedXY.y);
-        //   Vector3 direction = new Vector3(convertedXY.x, 0, convertedXY.y).normalized;
+        Vector3 direction = new Vector3(hoz, 0, ver).normalized;
         float mag = joystickL.Direction.magnitude;
-        transform.Translate(direction * (speed * mag * Time.deltaTime));
+        transform.Translate(direction * (speed * mag * Time.deltaTime), Space.World);
+        _playerAnimator.Move(mag);
     }
 
-    void UpdateJoystickR()
+    private void UpdateJoystickR()
     {
         float hoz = joystickR.Horizontal;
         float ver = joystickR.Vertical;
         Vector2 convertedXY = ConvertWithCamera(Camera.main.transform.position, hoz, ver);
-        Vector3 direction = new Vector3(convertedXY.x, 0, convertedXY.y).normalized;
-        Vector3 lookAtPosition = transform.position + direction;
+        var direction = new Vector3(convertedXY.x, 0, convertedXY.y).normalized;
+        var lookAtPosition = transform.position + direction;
+
         transform.LookAt(lookAtPosition);
     }
 
@@ -61,8 +80,8 @@ public class Player : MonoBehaviour
     {
         Vector2 joyDirection = new Vector2(hor, ver).normalized;
         Vector2 camera2DPos = new Vector2(cameraPos.x, cameraPos.z);
-        Vector2 playerPos = new Vector2(transform.position.x, transform.position.z);
         Vector2 cameraToPlayerDirection = (Vector2.zero - camera2DPos).normalized;
+
         float angle = Vector2.SignedAngle(cameraToPlayerDirection, new Vector2(0, 1));
         Vector2 finalDirection = RotateVector(joyDirection, -angle);
         return finalDirection;
@@ -76,15 +95,13 @@ public class Player : MonoBehaviour
         return new Vector2(_x, _y);
     }
 
-    private void LateUpdate()
-    {
-    }
+  
 
-    private void OnDisable()
+    public void Dead()
     {
-    }
+        LoseUIPanel.SetActive(true);
+        JoystickUIPanel.SetActive(false);
 
-    private void OnDestroy()
-    {
+        _animator.Play("Death");
     }
 }

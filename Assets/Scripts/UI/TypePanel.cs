@@ -2,6 +2,10 @@
 {
     public enum TypePanel
     {
-        
+        None,
+        Menu,
+        Fail,
+        Win,
+        Game
     }
 }

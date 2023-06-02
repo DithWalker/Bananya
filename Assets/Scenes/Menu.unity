@@ -206,9 +206,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 137340204}
-        m_TargetAssemblyTypeName: SceneTransition, Assembly-CSharp
-        m_MethodName: Load
+      - m_Target: {fileID: 299610151}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -369,13 +369,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 137340199}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15c9d1318bb867f4bbd9afb672963d56, type: 3}
+  m_Script: {fileID: 11500000, guid: d0155451b9a194e438ab2f7fa09e4b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: lvl1
-  loadScreen: {fileID: 1278225036}
-  Loading: {fileID: 0}
-  progressBar: {fileID: 1481163845}
+  loadingScreen: {fileID: 3729575463630504420}
 --- !u!1 &299610149
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,24 +492,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1278225036 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3316565607825071241, guid: c01697903394c284b80acd02d2cf07a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 3729575463630504418}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1481163845 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3316565607663097890, guid: c01697903394c284b80acd02d2cf07a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 3729575463630504418}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1527445449
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,11 +792,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 137340203}
     m_Modifications:
-    - target: {fileID: 3316565607663097890, guid: c01697903394c284b80acd02d2cf07a5,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3316565607825071241, guid: c01697903394c284b80acd02d2cf07a5,
         type: 3}
       propertyPath: m_Name
@@ -888,6 +862,12 @@ PrefabInstance:
 --- !u!4 &3729575463630504419 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3316565607825071242, guid: c01697903394c284b80acd02d2cf07a5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3729575463630504418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3729575463630504420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3316565607825071241, guid: c01697903394c284b80acd02d2cf07a5,
     type: 3}
   m_PrefabInstance: {fileID: 3729575463630504418}
   m_PrefabAsset: {fileID: 0}
