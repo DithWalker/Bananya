@@ -1,49 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PlCon : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Joystick joystickL;
     [SerializeField] private Joystick joystickR;
     [SerializeField] private float speed = 1f;
-    [SerializeField] private Slider health_bar;
-    [SerializeField] private float health = 100.0f;
+    [SerializeField] private float currentHealth;
+    [SerializeField] private float maxHealth = 100.0f;
+
+    public Health healthBar;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
-    private void OnEnable()
-    {
-        
-    }
 
-    public void SetMaxHealth(int health)
+    public void TakeDamage(float damage)
     {
-        health_bar.maxValue = health;
-        health_bar.value = health;
-    
+        healthBar.SetHealth(currentHealth - damage);
+        currentHealth -= damage;
     }
 
     private void Start()
     {
-        health_bar.value = health;
-    }
-
-    private void FixedUpdate()
-    {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         
     }
 
-     void Update()
-    {
-       UpdateJoystickL();
-        UpdateJoystickR();
 
+    void Update()
+    {
+        UpdateJoystickL();
+        UpdateJoystickR();
     }
 
     void UpdateJoystickL()
@@ -55,7 +45,6 @@ public class PlCon : MonoBehaviour
         //   Vector3 direction = new Vector3(convertedXY.x, 0, convertedXY.y).normalized;
         float mag = joystickL.Direction.magnitude;
         transform.Translate(direction * (speed * mag * Time.deltaTime));
-
     }
 
     void UpdateJoystickR()
@@ -67,6 +56,7 @@ public class PlCon : MonoBehaviour
         Vector3 lookAtPosition = transform.position + direction;
         transform.LookAt(lookAtPosition);
     }
+
     private Vector2 ConvertWithCamera(Vector3 cameraPos, float hor, float ver)
     {
         Vector2 joyDirection = new Vector2(hor, ver).normalized;
@@ -77,6 +67,7 @@ public class PlCon : MonoBehaviour
         Vector2 finalDirection = RotateVector(joyDirection, -angle);
         return finalDirection;
     }
+
     public Vector2 RotateVector(Vector2 v, float angle)
     {
         float radian = angle * Mathf.Deg2Rad;
@@ -84,19 +75,16 @@ public class PlCon : MonoBehaviour
         float _y = v.x * Mathf.Sin(radian) + v.y * Mathf.Cos(radian);
         return new Vector2(_x, _y);
     }
+
     private void LateUpdate()
     {
-        
     }
 
     private void OnDisable()
     {
-        
     }
 
     private void OnDestroy()
     {
-        
     }
-
 }
